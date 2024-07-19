@@ -1,0 +1,12 @@
+-- PRACTICA 13: REVISION Y CORRECION DE LAS TABLAS:
+-- Servicios al cliente, servicios sucursales, instalaciones, equipamiento, ejercicios
+-- Elaborado por: Ing. Edgar Pérez Garrido
+-- Grado y Grupo: 9B
+-- Programa Educativo: Ingenieria en Desarrollo y Gestion de Software
+-- Fecha elaboracion: 19 de julio 2024
+-- Tabla servicios al cliente
+-- a) Revision de la composicion de la tabla
+-- b) cambios sugeridos
+-- c) Revision de la poblacion estatica (correccion en caso de ser necesaria)
+-- d) Revision de los 4 triggers (AFTER INSERT, BEFORE UPDATE, AFTER UPDATE, BEFORE DELETE)
+-- e) realizar una consulta join (en caso de que aplique) para comprobar la integridad de la informacion 
