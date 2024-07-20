@@ -169,9 +169,106 @@ CREATE DEFINER=`adan`@`%` TRIGGER `tbd_servicios_al_cliente_AFTER_DELETE` AFTER 
 
 -- Tabla servicios sucursales
 -- a) Revision de la composicion de la tabla
+CREATE TABLE `tbd_servicios_sucursales` (
+  `ID` int unsigned NOT NULL AUTO_INCREMENT,
+  `Sucursal_ID` int unsigned NOT NULL,
+  `ServiciosCliente_ID` int unsigned NOT NULL,
+  `Estatus` enum('Iniciada','Proceso','Concluida') DEFAULT 'Concluida',
+  PRIMARY KEY (`ID`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- b) cambios sugeridos
 -- c) Revision de la poblacion estatica (correccion en caso de ser necesaria)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_poblar_servicios_sucursales`(v_password varchar(10))
+    BEGIN
+    if v_password = '1234' then
+
+        INSERT INTO tbd_servicios_sucursales VALUES
+        (default,1, 2,"Proceso"),
+        (default,2, 3,default),
+        (default,3, 4,"Iniciada");
+        
+        update tbd_servicios_sucursales set Estatus = 'Iniciada' where id = 2;
+            
+            delete from tbd_servicios_sucursales where id = 1;
+            else
+            select "La contraseña es incorrecta, no puedo insertar registros de la BD" as Mensaje;
+        end if;
+    END
 -- d) Revision de los 4 triggers (AFTER INSERT, BEFORE UPDATE, AFTER UPDATE, BEFORE DELETE)
+CREATE DEFINER=`root`@`localhost` TRIGGER `tbd_servicios_sucursales_AFTER_INSERT` AFTER INSERT ON `tbd_servicios_sucursales` FOR EACH ROW BEGIN
+    DECLARE v_estatus VARCHAR(20) DEFAULT 'Activo';
+        
+        IF NOT new.estatus = b'1' THEN
+            SET v_estatus = 'Inactivo';
+        END IF;
+        INSERT INTO tbi_bitacora VALUES(
+            DEFAULT, -- ID
+            current_user(), -- Usuario
+            "Create", -- Operación
+            "tbd_servicios_sucursales", -- Tabla
+            CONCAT_WS(" ", "Se ha insertado un nuevo servicio respecto a la sucursal con los siguientes datos", -- Desde aquí
+            "ID SUCURSAL", new.Sucursal_ID,
+            "ID SERVICIOS CLIENTES", new.ServiciosCliente_ID,
+            "ESTATUS", v_estatus), -- Hasta aquí -> Descripción 
+            DEFAULT, -- Fecha registro 
+            default -- Estatus
+        );
+
+    END
+-- ------------------------------------------------------------------------------------------------------
+CREATE DEFINER=`root`@`localhost` TRIGGER `tbd_servicios_sucursales_AFTER_UPDATE` AFTER UPDATE ON `tbd_servicios_sucursales` FOR EACH ROW BEGIN
+    DECLARE v_estatus_old VARCHAR(20) DEFAULT 'Activo';
+    DECLARE v_estatus_new VARCHAR(20) DEFAULT 'Activo';
+
+    -- Validaciones para las etiquetas del estatus
+
+    IF NOT old.estatus THEN
+    SET v_estatus_old = 'Inactivo';
+    END IF;
+
+    IF NOT new.estatus THEN
+    SET v_estatus_new = 'Inactivo';
+    END IF;
+
+        INSERT INTO tbi_bitacora VALUES(
+            DEFAULT, -- ID
+            current_user(), -- Usuario
+            "Update", -- Operación
+            "tbd_servicios_sucursales", -- Tabla
+            CONCAT_WS(" ", "Se ha modificado un servicio respecto a la sucursal con los siguientes datos", -- Desde aquí
+            "ID SUCURSAL", old.Sucursal_ID, '---', new.Sucursal_ID,
+            "ID SERVICIOS CLIENTES", old.ServiciosCliente_ID, '---',  new.ServiciosCliente_ID,
+            "ESTATUS", v_estatus_old, '---',  v_estatus_new), -- Hasta aquí -> Descripción 
+            DEFAULT, -- Fecha registro 
+            default -- Estatus
+        );
+
+    END
+-- ------------------------------------------------------------------------------------------------------
+CREATE DEFINER=`root`@`localhost` TRIGGER `tbd_servicios_sucursales_BEFORE_DELETE` BEFORE DELETE ON `tbd_servicios_sucursales` FOR EACH ROW BEGIN
+    DECLARE v_estatus_old VARCHAR(20) DEFAULT 'Activo';
+
+    -- Validaciones para las etiquetas del estatus
+
+    IF NOT old.estatus THEN
+    SET v_estatus_old = 'Inactivo';
+    END IF;
+
+
+        INSERT INTO tbi_bitacora VALUES(
+            DEFAULT, -- ID
+            current_user(), -- Usuario
+            "Delete", -- Operación
+            "tbd_servicios_sucursales", -- Tabla
+            CONCAT_WS(" ", "Se ha eliminado un servicio respecto a la sucursal con los siguientes datos", -- Desde aquí
+            "ID SUCURSAL", old.Sucursal_ID,
+            "ID SERVICIOS CLIENTES", old.ServiciosCliente_ID,
+            "ESTATUS", v_estatus_old), -- Hasta aquí -> Descripción 
+            DEFAULT, -- Fecha registro 
+            default -- Estatus
+        );
+
+    END
 -- e) realizar una consulta join (en caso de que aplique) para comprobar la integridad de la informacion 
 
 -- Tabla instalaciones
@@ -316,6 +413,7 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `tbb_equipamientos_BEFORE_DELETE` BEFO
     );
     END
 -- e) realizar una consulta join (en caso de que aplique) para comprobar la integridad de la informacion 
+
 
 -- Tabla ejercicios
 -- a) Revision de la composicion de la tabla
