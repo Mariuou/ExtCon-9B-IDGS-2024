@@ -207,9 +207,9 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `tbd_servicios_sucursales_AFTER_UPDATE
         "UPDATE", 
         "tbd_servicios_sucursales", 
         CONCAT_WS(" ", "Se ha modificado un servicio respecto a la sucursal con los siguientes datos", 
-        "ID SUCURSAL", OLD.Sucursal_ID, '---', NEW.Sucursal_ID,
-        "ID SERVICIOS CLIENTES", OLD.ServiciosCliente_ID, '---',  NEW.ServiciosCliente_ID,
-        "ESTATUS", v_estatus_old, '---',  v_estatus_new),  
+        "ID SUCURSAL", OLD.Sucursal_ID, '--', NEW.Sucursal_ID,
+        "ID SERVICIOS CLIENTES", OLD.ServiciosCliente_ID, '--',  NEW.ServiciosCliente_ID,
+        "ESTATUS", v_estatus_old, '--',  v_estatus_new),  
         DEFAULT, 
         DEFAULT 
     );
@@ -232,7 +232,6 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `tbd_servicios_sucursales_BEFORE_DELET
         DEFAULT, 
         DEFAULT 
     );
-
 END
 -- e) realizar una consulta JOIN (en caso de que aplique) para comprobar la integridad de la informacion 
 SELECT concat_ws(" ", nullif(p.titulo_cortesia,''),
@@ -245,8 +244,7 @@ FROM tbc_servicios_clientes sc
 ON sc.id = ss.ServiciosCliente_ID
 FROM tbc_sucursales s 
 ON s.id = ss.sucursal_ID;
-
--- Consutar la persona, su tipo de servicio, y la sucurssal en la que lo hace.
+-- Consutar la persona, tipo de servicio, y la sucurssal en la que lo hace.
 SELECT concat_ws(" ", nullif(p.titulo_cortesia,''),
 p. nombre, p.primer_apellido, p.segundo_apellido) AS NombrePersona,
 sc.Tipo_Servicio AS TipoServicio, s.nombre AS NombreSucursal
@@ -334,16 +332,15 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `tbb_instalaciones_AFTER_UPDATE` AFTER
         "UPDATE", 
         "tbb_instalaciones",
         CONCAT_WS(" ", "Se ha modificado una instalación existente con los siguientes datos", 
-        "NOMBRE",OLD.Nombre, '---', NEW.Nombre,
-        "DESCRIPCION",OLD.Descripcion, '---',  NEW.Descripcion,
-        "TIPO",OLD.Tipo, '---',  NEW.Tipo,
-        "FECHA REGISTRO",OLD.Fecha_Registro, '---',  NEW.Fecha_Registro,
-        "ESTATUS",v_estatus_old,'---', v_estatus_new,
-        "FECHA ACTUALIZACION",OLD.Fecha_Actualizacion, '---',  NEW.Fecha_Actualizacion),  
+        "NOMBRE",OLD.Nombre, '--', NEW.Nombre,
+        "DESCRIPCION",OLD.Descripcion, '--',  NEW.Descripcion,
+        "TIPO",OLD.Tipo, '--',  NEW.Tipo,
+        "FECHA REGISTRO",OLD.Fecha_Registro, '--',  NEW.Fecha_Registro,
+        "ESTATUS",v_estatus_old,'--', v_estatus_new,
+        "FECHA ACTUALIZACION",OLD.Fecha_Actualizacion, '--',  NEW.Fecha_Actualizacion),  
         DEFAULT, 
         DEFAULT 
     );
-
 END
 -- -------------------------------------------------------------------------------------------------------------
 CREATE DEFINER=`root`@`localhost` TRIGGER `tbb_instalaciones_BEFORE_DELETE` BEFORE DELETE ON `tbb_instalaciones` FOR EACH ROW BEGIN
@@ -451,15 +448,15 @@ CREATE DEFINER=`root`@`localhost` TRIGGER `tbb_equipamientos_AFTER_UPDATE` AFTER
         "UPDATE",
         "tbb_equipamientos",
         CONCAT_WS(" ","Se ha modificado un equipo existente con los siguientes datos: ",
-        "AREA = ",OLD.Area, '---', NEW.Area,
-        "NOMBRE = ",OLD.Nombre, '---',  NEW.Nombre,
-        "MARCA = ",OLD.Marca, '---',  NEW.Marca,
-        "MODELO = ",OLD.Modelo, '---',  NEW.Modelo,
-        "FOTO = ",OLD.Foto, '---',  NEW.Foto,
-        "FECHA REGISTRO = ",OLD.Fecha_Registro, '---',  NEW.Fecha_Registro,
-        "FECHA ACTUALIZACION = ",OLD.Fecha_Actualizacion, '---',  NEW.Fecha_Actualizacion,
-        "ESTATUS = ",v_estatus_old, '---',  v_estatus_new,
-        "TOTAL EXISTENCIAS = ",OLD.Total_Existencias, '---',  NEW.Total_Existencias),
+        "AREA = ",OLD.Area, '--', NEW.Area,
+        "NOMBRE = ",OLD.Nombre, '--',  NEW.Nombre,
+        "MARCA = ",OLD.Marca, '--',  NEW.Marca,
+        "MODELO = ",OLD.Modelo, '--',  NEW.Modelo,
+        "FOTO = ",OLD.Foto, '--',  NEW.Foto,
+        "FECHA REGISTRO = ",OLD.Fecha_Registro, '--',  NEW.Fecha_Registro,
+        "FECHA ACTUALIZACION = ",OLD.Fecha_Actualizacion, '--',  NEW.Fecha_Actualizacion,
+        "ESTATUS = ",v_estatus_old, '--',  v_estatus_new,
+        "TOTAL EXISTENCIAS = ",OLD.Total_Existencias, '--',  NEW.Total_Existencias),
         DEFAULT,
         DEFAULT  
     );
@@ -512,7 +509,6 @@ CREATE TABLE `tbc_ejercicios` (
 -- c) Revision de la poblacion estatica (correccion en caso de ser necesaria)
 CREATE DEFINER=`suri`@`%` PROCEDURE `sp_poblar_ejercicios`(v_password VARCHAR(50))
     BEGIN
-    -- Corregido por Marco RH - Menos 2 Firmas
     IF v_password = "xYz$123" THEN
         INSERT INTO tbc_ejercicios VALUES 
             (DEFAULT, "Peso Muerto", " consiste esencialmente en extender la cadera y los músculos que la rodean, también incluye todos los ejercicios de musculación que requieren una cierta estabilidad del torso,
@@ -580,16 +576,16 @@ CREATE DEFINER=`suri`@`%` TRIGGER `tbc_ejercicios_AFTER_UPDATE` AFTER UPDATE ON 
         "UPDATE",
         "tbc_ejercicios",
         CONCAT_WS(" ","Se ha modificado un ejercicio existente con los siguientes datos: ",
-        "NOMBRE = ", OLD.Nombre, '---', NEW.Nombre,
-        "DESCRIPCION = ", OLD.Descripcion, '---', NEW.Descripcion,
-        "VIDEO = ",OLD.Video, '---', NEW.Video, 
-        "TIPO = ",OLD.Tipo, '---', NEW.Tipo,
-        "ESTATUS = ",v_estatus_old, '---', v_estatus_new,
-        "DIFICULTAD = ",OLD.Dificultad, '---', NEW.Dificultad,
-        "FECHA REGISTRO = ",OLD.Fecha_Registro, '---', NEW.Fecha_Registro,
-        "FECHA ACTUALIZACION = ",OLD.Fecha_Actualizacion, '---', NEW.Fecha_Actualizacion,
-        "RECOMENDACIONES = ",OLD.Recomendaciones, '---', NEW.Recomendaciones,
-        "RESTRICCIONES = ",OLD.Restricciones, '---', NEW.Restricciones),
+        "NOMBRE = ", OLD.Nombre, '--', NEW.Nombre,
+        "DESCRIPCION = ", OLD.Descripcion, '--', NEW.Descripcion,
+        "VIDEO = ",OLD.Video, '--', NEW.Video, 
+        "TIPO = ",OLD.Tipo, '--', NEW.Tipo,
+        "ESTATUS = ",v_estatus_old, '--', v_estatus_new,
+        "DIFICULTAD = ",OLD.Dificultad, '--', NEW.Dificultad,
+        "FECHA REGISTRO = ",OLD.Fecha_Registro, '--', NEW.Fecha_Registro,
+        "FECHA ACTUALIZACION = ",OLD.Fecha_Actualizacion, '--', NEW.Fecha_Actualizacion,
+        "RECOMENDACIONES = ",OLD.Recomendaciones, '--', NEW.Recomendaciones,
+        "RESTRICCIONES = ",OLD.Restricciones, '--', NEW.Restricciones),
         DEFAULT,
         DEFAULT  
     );
