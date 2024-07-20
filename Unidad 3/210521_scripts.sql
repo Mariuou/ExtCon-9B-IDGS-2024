@@ -6,7 +6,7 @@ Programa Educativo: Ingenieria en Desarrollo y Gestion de Software
 Fecha elaboracion: 19 de julio 2024*/
 
 -- Tabla servicios al cliente
-    -- a) Revision de la composicion de la tabla
+    -- a) Revision de la composicion de la tablaa
     CREATE TABLE `tbc_servicios_clientes` (
     `ID` int unsigned NOT NULL AUTO_INCREMENT,
     `Persona_ID` int unsigned NOT NULL,
