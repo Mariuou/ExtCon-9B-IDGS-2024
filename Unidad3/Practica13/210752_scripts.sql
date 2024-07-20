@@ -1,2 +1,6 @@
 -- PRACTICA 13: REVISION Y CORRECION DE LAS TABLAS 
 -- Servicios al Cliente, Servicios Sucursales, Instalaciones, Equipamiento y Ejercicios
+-- Elaborado por Amisadai Fernandez Reyes 
+-- Grado y Grupo: 9°B
+-- Programa Educativo: Ingenieria de Desarrollo y Gestion de Software
+-- Fecha elaboracion: 19 de Junio de 2024
