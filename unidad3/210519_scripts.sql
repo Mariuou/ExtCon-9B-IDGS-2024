@@ -40,7 +40,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_poblar_servicios_clientes`(v_pas
 		else
 		select "La contraseña es incorrecta, no puedo insertar registros de la BD" as Mensaje;
 	end if;
-END
+    END
 -- d) Revision de los 4 triggers (AFTER INSERT, BEFORE UPDATE, AFTER UPDATE, BEFORE DELETE)
 CREATE DEFINER=`adan`@`%` TRIGGER `tbd_servicios_al_cliente_AFTER_INSERT` AFTER INSERT ON `tbc_servicios_clientes` FOR EACH ROW BEGIN
  DECLARE v_estatus varchar(20) default 'Activo';
@@ -75,11 +75,11 @@ CREATE DEFINER=`adan`@`%` TRIGGER `tbd_servicios_al_cliente_AFTER_INSERT` AFTER 
         DEFAULT, -- Fecha registro 
         default -- Estatus
     );
-END
+    END
 -- -----------------------------------------------------------------------------------------------------
 CREATE DEFINER=`adan`@`%` TRIGGER `tbd_servicios_al_cliente_BEFORE_UPDATE` BEFORE UPDATE ON `tbc_servicios_clientes` FOR EACH ROW BEGIN
     SET new.fecha_actualizacion = current_timestamp();
-END
+    END
 -- -----------------------------------------------------------------------------------------------------
 CREATE DEFINER=`adan`@`%` TRIGGER `tbd_servicios_al_cliente_AFTER_UPDATE` AFTER UPDATE ON `tbc_servicios_clientes` FOR EACH ROW BEGIN
 	
