@@ -11,7 +11,7 @@
 
 -- a) Revisión de la composición de la tabla
 
-CREATE TABLE `tbc_servicios_al_cliente` (
+CREATE TABLE `tbd_servicios_al_cliente` (
     `id` INT unsigned AUTO_INCREMENT PRIMARY KEY,
     `id_usuario` INT NOT NULL,
     `id_persona` INT NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE `tbc_servicios_al_cliente` (
 );
 -- b) Cambios sugeridos
 
-CREATE TABLE `tbc_servicios_al_cliente` (
+CREATE TABLE `tbd_servicios_al_cliente` (
     `id` INT unsigned AUTO_INCREMENT PRIMARY KEY,
     `id_usuario` INT NOT NULL,
     `id_persona` INT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `tbc_servicios_al_cliente` (
 
 -- c) Revisión de la Población Estática (corrección en caso de ser necesaria)
 
-  INSERT INTO tbc_servicios_al_cliente VALUES
+  INSERT INTO tbd_servicios_al_cliente VALUES
         (default, 1, 15, 'Servicio Individual', 'Descripción del servicio individual 1', 'Comentarios del servicio 1', b'1', CURDATE(), NULL),
         (default, 2, 3, 'Servicio Grupal', 'Descripción del servicio grupal 1', 'Comentarios del servicio 2', b'1', CURDATE(), NULL),
         (default,1, 3, 'Servicio Individual', 'Descripción del servicio individual 2', 'Comentarios del servicio 3', b'1', CURDATE(), NULL),
@@ -63,7 +63,7 @@ CREATE TABLE `tbc_servicios_al_cliente` (
         DEFAULT, -- ID
         current_user(), -- Usuario
         "Create", -- Operación
-        "tbc_servicios_al_cliente", -- Tabla
+        "tbd_servicios_al_cliente", -- Tabla
         CONCAT_WS(" ", "Se ha insertado un nuevo servicio al cliente con los siguientes datos", -- Desde aquí
         "ID de la persona: ", new.id_usuario,
         "ID del empleado: ", new.id_persona, 
@@ -108,7 +108,7 @@ INSERT INTO tbi_bitacora VALUES(
 DEFAULT, -- ID
 current_user(), -- Usuario
 'Update', -- Operación 
-'tbc_servicios_al_cliente', -- Tabla
+'tbd_servicios_al_cliente', -- Tabla
 CONCAT_WS(' ','Se ha modificado Servicio al cliente prestado con los siguientes datos:', -- Desde Aquí
 'ID de quien solicitó el servicio: ', old.id_usuario, ' a pasado a: ', new.id_usuario, ' - ',-- Id usuario (Cliente)
 'ID de quien prestó el servicio: ', old.id_persona, ' a pasado a: ', new.id_persona, ' - ',-- Id persona (Cliente)
@@ -135,7 +135,7 @@ default -- Estatus
         DEFAULT, -- ID
         current_user(), -- Usuario
         'Delete', -- Operación
-        'tbc_servicios_al_cliente', -- Tabla
+        'tbd_servicios_al_cliente', -- Tabla
         CONCAT_WS(" ", "Se ha eliminado un servicio al cliente con los siguientes datos:", -- Desde aquí
             "ID de quien solicitó el servicio: ", OLD.id_usuario,
             "ID de quien prestó el servicio: ", OLD.id_persona, 
